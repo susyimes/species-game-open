@@ -1,0 +1,18 @@
+{
+  "fernback.glb": {
+    "meshes": 32,
+    "vertices": 1604
+  },
+  "moonray.glb": {
+    "meshes": 18,
+    "vertices": 1116
+  },
+  "mireclaw.glb": {
+    "meshes": 32,
+    "vertices": 1936
+  },
+  "spinedillo.glb": {
+    "meshes": 39,
+    "vertices": 2144
+  }
+}

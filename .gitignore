@@ -1,0 +1,10 @@
+node_modules/
+dist/
+.backups/
+artifacts/
+.ecology/
+*.blend1
+*.log
+.env
+.env.*
+!.env.example

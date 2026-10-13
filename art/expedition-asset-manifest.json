@@ -1,0 +1,26 @@
+{
+  "riftstalker.glb": {
+    "meshes": 52,
+    "vertices": 3800
+  },
+  "stonehorn.glb": {
+    "meshes": 52,
+    "vertices": 4770
+  },
+  "tideblade.glb": {
+    "meshes": 74,
+    "vertices": 4460
+  },
+  "spearbeak.glb": {
+    "meshes": 30,
+    "vertices": 1817
+  },
+  "resinshell.glb": {
+    "meshes": 53,
+    "vertices": 5160
+  },
+  "stormlantern.glb": {
+    "meshes": 40,
+    "vertices": 3388
+  }
+}

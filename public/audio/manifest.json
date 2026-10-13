@@ -1,0 +1,382 @@
+{
+  "version": 1,
+  "runtime": "Static local assets, decoded in the browser after a user gesture.",
+  "generators": {
+    "ACE-Step 1.5": {
+      "revision": "ca1e85fe9430179831e6bc6be790c332190a3866",
+      "model": "acestep-v15-turbo",
+      "license": "MIT"
+    },
+    "Dasheng-AudioGen": {
+      "revision": "3ff4ee42670692ebd5c731d5ba15e399ff5cc514",
+      "model": "mispeech/Dasheng-AudioGen",
+      "license": "Apache-2.0"
+    }
+  },
+  "validation": "This script checks waveforms, clipping, duration, file hashes and loop boundaries. Browser playback is verified separately in tests/audio-browser.mjs. Prompts describe generation intent.",
+  "files": [
+    {
+      "id": "island-day",
+      "role": "music",
+      "loop": true,
+      "generator": "ACE-Step 1.5",
+      "seed": 734291,
+      "prompt": "Instrumental background music for a gentle creature evolution island game. Soft marimba, warm wooden flute, lightly plucked nylon strings and a quiet airy pad. A small curious pentatonic melody with plenty of breathing room, calm sunshine, young leaves and a welcoming home. Restrained dynamics, soft transients, repeating natural phrases, unobtrusive game underscore, steady 76 BPM. No vocals, no choir, no spoken words, no dramatic crescendo, no big drums.",
+      "source_sha256": "c8ee8ac4aa310a9c97c3599fe42c5e9842b56d75ffb71087b0904c336e236b8d",
+      "source_seconds": 64.0,
+      "selected_seconds": [
+        0.0,
+        53.9
+      ],
+      "processing": "DC-free gain normalization with peak ceiling; circular cosine crossfade",
+      "duration": 50.9,
+      "channels": 2,
+      "rms_dbfs": -25.19,
+      "seam_delta": 0.001533,
+      "files": {
+        "ogg": {
+          "bytes": 618911,
+          "sha256": "6e687769dd9b8723b6679df564aa6df04f745dd06126a5b608255f66bba8187b",
+          "duration": 50.9,
+          "peak_dbfs": -6.59
+        },
+        "mp3": {
+          "bytes": 621825,
+          "sha256": "0a9a9b8c3b74f733e4444841456814e2c1d52c1ff351c0e7fe6cf3c1c44d2869",
+          "duration": 50.9,
+          "peak_dbfs": -6.68
+        }
+      }
+    },
+    {
+      "id": "island-night",
+      "role": "music",
+      "loop": true,
+      "generator": "ACE-Step 1.5",
+      "seed": 734292,
+      "prompt": "Quiet instrumental night music for a small living island. Delicate felt piano, a few rounded glass bell notes, warm low woodwind and soft sustained air. Moonlit leaves, sleeping creatures, peaceful curiosity and a safe nest. Slow sparse pentatonic phrases, intimate and soothing, almost no percussion, steady soft dynamics, seamless repeating game underscore at 64 BPM. No vocals, no choir, no speech, no ominous horror sounds, no dramatic swell.",
+      "source_sha256": "d1ed6dc8eed9601c7d843ec325c8dc61f7a5475431c9608ca51a99ac8b2542da",
+      "source_seconds": 64.0,
+      "selected_seconds": [
+        3.8,
+        60.08
+      ],
+      "processing": "DC-free gain normalization with peak ceiling; circular cosine crossfade",
+      "duration": 53.28,
+      "channels": 2,
+      "rms_dbfs": -25.19,
+      "seam_delta": 0.000172,
+      "files": {
+        "ogg": {
+          "bytes": 634010,
+          "sha256": "8e7bcf3c676f6090361b80cb5ee1d899680b63ad74a9447a5ba22959b00d1992",
+          "duration": 53.28,
+          "peak_dbfs": -7.5
+        },
+        "mp3": {
+          "bytes": 587259,
+          "sha256": "cdad4ef0c44869edf37e678cd2b4aef7926a83d265055659aa0581f78a18aa43",
+          "duration": 53.28,
+          "peak_dbfs": -7.57
+        }
+      }
+    },
+    {
+      "id": "island-expedition",
+      "role": "music",
+      "loop": true,
+      "generator": "ACE-Step 1.5",
+      "seed": 734293,
+      "prompt": "Instrumental exploration music for a whimsical creature island expedition. Muted wooden hand percussion, gentle kalimba ostinato, breathy flute and soft low plucked strings. Curious footsteps across unfamiliar tide pools, cautious discovery, a little adventure without panic. Spacious acoustic texture, repeating small melodic phrases, steady restrained 92 BPM, background game loop. No vocals, no choir, no speech, no epic orchestra, no loud battle drums, no large build-up.",
+      "source_sha256": "046d2ebef1ee2e84f305fc2daaf79f3afb12d345fc3099b7b19e522dcad010c6",
+      "source_seconds": 64.0,
+      "selected_seconds": [
+        0.0,
+        60.28
+      ],
+      "processing": "DC-free gain normalization with peak ceiling; circular cosine crossfade",
+      "duration": 57.28,
+      "channels": 2,
+      "rms_dbfs": -25.19,
+      "seam_delta": 0.003176,
+      "files": {
+        "ogg": {
+          "bytes": 651814,
+          "sha256": "05f94bb8fe8c558bb56f18150b8952a301f020635a7867bd077f3c2853ff91c3",
+          "duration": 57.28,
+          "peak_dbfs": -6.44
+        },
+        "mp3": {
+          "bytes": 613187,
+          "sha256": "7befe6f9a874b133bcffabff499058cf3a639c22ce6f4f8b5baeb16e44fd757c",
+          "duration": 57.28,
+          "peak_dbfs": -6.14
+        }
+      }
+    },
+    {
+      "id": "gather-leaf",
+      "role": "effect",
+      "loop": false,
+      "generator": "Dasheng-AudioGen",
+      "seed": 734301,
+      "prompt": "A single ripe berry gently plucked from a leafy bush, followed by silence. One soft organic pop with a tiny dry leaf rustle. Close and delicate, no speech, no music, no ambience.",
+      "source_sha256": "8305ed39bf3226af324b0a2df21b19af87201a79dd2b24489507e4b633d2289b",
+      "source_seconds": 9.92,
+      "selected_seconds": [
+        2.3,
+        3.0
+      ],
+      "processing": "Isolated transient, short attack/release fades, peak and RMS normalization",
+      "duration": 0.7,
+      "channels": 1,
+      "rms_dbfs": -29.9,
+      "seam_delta": null,
+      "files": {
+        "ogg": {
+          "bytes": 6919,
+          "sha256": "ca0d3bf7f80a872a62f35ef04672629bac7a7238489d6b528e47d12837e436f8",
+          "duration": 0.7,
+          "peak_dbfs": -3.19
+        },
+        "mp3": {
+          "bytes": 3712,
+          "sha256": "272530da9d7d4fcc8f779adfa66f8cb495f68d9247b810b12f69ae2860def1f6",
+          "duration": 0.7,
+          "peak_dbfs": -3.1
+        }
+      }
+    },
+    {
+      "id": "gather-stone",
+      "role": "effect",
+      "loop": false,
+      "generator": "Dasheng-AudioGen",
+      "seed": 734302,
+      "prompt": "A small pebble tapped loose from a rock, followed by silence. One rounded stone tick and a little gritty rattle, gentle game feedback, not metallic or explosive. No voices, music or ambience.",
+      "source_sha256": "c7077420ae949154e33b0cdb64236ce6e1612bbb2a57d8b9c1233bbe3c0ca462",
+      "source_seconds": 9.92,
+      "selected_seconds": [
+        2.32,
+        2.97
+      ],
+      "processing": "Isolated transient, short attack/release fades, peak and RMS normalization",
+      "duration": 0.65,
+      "channels": 1,
+      "rms_dbfs": -20.0,
+      "seam_delta": null,
+      "files": {
+        "ogg": {
+          "bytes": 7971,
+          "sha256": "aa77e8d909f8f28ab0ca5ed9246a10e22c7c9eccbd94fe3f597307cc1f593124",
+          "duration": 0.65,
+          "peak_dbfs": -3.88
+        },
+        "mp3": {
+          "bytes": 5536,
+          "sha256": "b8bba338bd8600cb5bb50efe37be99c786e629b8501774443ae48c09356aac72",
+          "duration": 0.65,
+          "peak_dbfs": -3.64
+        }
+      }
+    },
+    {
+      "id": "deposit",
+      "role": "effect",
+      "loop": false,
+      "generator": "Dasheng-AudioGen",
+      "seed": 734303,
+      "prompt": "A handful of small berries and seeds placed into a wooden bowl, followed by silence. Soft little wooden clacks and seed taps, warm satisfying short landing. No speech, music or ambience.",
+      "source_sha256": "ac25b265d964895df9e59699fd1ed0bc925e0a9cd4c94043e44256baee4c0a60",
+      "source_seconds": 9.92,
+      "selected_seconds": [
+        0.98,
+        1.88
+      ],
+      "processing": "Isolated transient, short attack/release fades, peak and RMS normalization",
+      "duration": 0.9,
+      "channels": 1,
+      "rms_dbfs": -28.23,
+      "seam_delta": null,
+      "files": {
+        "ogg": {
+          "bytes": 9518,
+          "sha256": "bdfc378022c26592c346e2525626bb7c1c14eca23a7a0bb241e4ad8da1c30c6a",
+          "duration": 0.9,
+          "peak_dbfs": -3.01
+        },
+        "mp3": {
+          "bytes": 6471,
+          "sha256": "d81366ac997d45d2b313a3851c3f3d4f51d9687b90c436d1e5aa09b22c1c7c41",
+          "duration": 0.9,
+          "peak_dbfs": -3.03
+        }
+      }
+    },
+    {
+      "id": "evolve",
+      "role": "effect",
+      "loop": false,
+      "generator": "Dasheng-AudioGen",
+      "seed": 734304,
+      "prompt": "A short gentle magical transformation sound for a friendly creature growing new leaves. Three rounded glass and wooden chime notes rising softly with a tiny airy shimmer and clean decay. Warm and pleasant, no voices, no loud impact, no background music.",
+      "source_sha256": "0de5bf1e1833ab24a8009cbc7d01911a81a92b27b15336c7ef33abc331225156",
+      "source_seconds": 9.92,
+      "selected_seconds": [
+        0.28,
+        2.68
+      ],
+      "processing": "Isolated transient, short attack/release fades, peak and RMS normalization",
+      "duration": 2.4,
+      "channels": 1,
+      "rms_dbfs": -21.33,
+      "seam_delta": null,
+      "files": {
+        "ogg": {
+          "bytes": 20333,
+          "sha256": "8e9fafd18e4981a6d34ad4dd88d2e7c95977c444967f40ccf141e5e75196eeed",
+          "duration": 2.4,
+          "peak_dbfs": -3.53
+        },
+        "mp3": {
+          "bytes": 18467,
+          "sha256": "7158e1cac1adefe192ad8b89db99b08bed2febb18ace9ff9366745f3855365f7",
+          "duration": 2.4,
+          "peak_dbfs": -3.11
+        }
+      }
+    },
+    {
+      "id": "impact",
+      "role": "effect",
+      "loop": false,
+      "generator": "Dasheng-AudioGen",
+      "seed": 734305,
+      "prompt": "One soft padded creature bump with a brief breath of air, followed by silence. A single muted low thump and short whoosh, cartoon animal collision, gentle and non-graphic. No scream, no growl, no speech, no music.",
+      "source_sha256": "19415ad26ee7c3f4b7a92792e6c7b9c33f915c8aa30461a38ab59fcdb04d85e6",
+      "source_seconds": 9.92,
+      "selected_seconds": [
+        3.88,
+        4.48
+      ],
+      "processing": "Isolated transient, short attack/release fades, peak and RMS normalization",
+      "duration": 0.6,
+      "channels": 1,
+      "rms_dbfs": -20.0,
+      "seam_delta": null,
+      "files": {
+        "ogg": {
+          "bytes": 6889,
+          "sha256": "11dc8b88034ac68e5197ca8e520a38f236114b89baf6c1b955ddfb17313d8c25",
+          "duration": 0.6,
+          "peak_dbfs": -10.52
+        },
+        "mp3": {
+          "bytes": 4572,
+          "sha256": "4f4bfb90dc7f93f5148badcd40316e40ea54eefa5342e3932f8c9bf3e29f88eb",
+          "duration": 0.6,
+          "peak_dbfs": -10.31
+        }
+      }
+    },
+    {
+      "id": "splash",
+      "role": "effect",
+      "loop": false,
+      "generator": "Dasheng-AudioGen",
+      "seed": 734306,
+      "prompt": "One small animal paw stepping into shallow water, followed by silence. One delicate water plop with small droplets, close recording, no voices, no music, no stream or background sound.",
+      "source_sha256": "c8046e271cc9b5929c5be3a5690336b1894c710561da27be4ce5812817a29290",
+      "source_seconds": 9.92,
+      "selected_seconds": [
+        0.0,
+        0.85
+      ],
+      "processing": "Isolated transient, short attack/release fades, peak and RMS normalization",
+      "duration": 0.85,
+      "channels": 1,
+      "rms_dbfs": -32.45,
+      "seam_delta": null,
+      "files": {
+        "ogg": {
+          "bytes": 9638,
+          "sha256": "6ab07eac06f6e4125a928e913576120944f7c85b14005d371270c0a544b082da",
+          "duration": 0.85,
+          "peak_dbfs": -4.09
+        },
+        "mp3": {
+          "bytes": 7595,
+          "sha256": "1908247ccce2c10d0aea2211c96628b10fd26a8fae1888c9356591baec90ae81",
+          "duration": 0.85,
+          "peak_dbfs": -3.01
+        }
+      }
+    },
+    {
+      "id": "rain",
+      "role": "ambience",
+      "loop": true,
+      "generator": "Dasheng-AudioGen",
+      "seed": 734307,
+      "prompt": "Steady soft rainfall on broad leaves on a quiet tropical island. Gentle continuous rain patter and light leafy hiss, even sound throughout, no thunder, no wind gusts, no birds, no voices and no music.",
+      "source_sha256": "cb28c5d85e254178854f2689c8323d22c8b0cc7a844e3296e8e64980b3679394",
+      "source_seconds": 9.92,
+      "selected_seconds": [
+        0.0,
+        9.92
+      ],
+      "processing": "DC-free gain normalization with peak ceiling; circular cosine crossfade",
+      "duration": 7.35,
+      "channels": 1,
+      "rms_dbfs": -28.87,
+      "seam_delta": 0.034332,
+      "files": {
+        "ogg": {
+          "bytes": 50017,
+          "sha256": "5929eb3f20a9f56f2be3ef04f9ca0a7221f3c75177789061edcae3a6605231e4",
+          "duration": 7.35,
+          "peak_dbfs": -7.48
+        },
+        "mp3": {
+          "bytes": 49383,
+          "sha256": "0dc2e94e4e07df9c2bcaa54ed930d310621e3a181e609940216fb8db066d4784",
+          "duration": 7.35,
+          "peak_dbfs": -7.25
+        }
+      }
+    },
+    {
+      "id": "surf",
+      "role": "ambience",
+      "loop": true,
+      "generator": "Dasheng-AudioGen",
+      "seed": 734308,
+      "prompt": "Quiet small waves wash slowly onto a sandy island beach. Soft continuous sea wash and retreating foam, calm small waves, no large crashes, no birds, no speech, no boats and no music.",
+      "source_sha256": "41310132cd88a8573a117dacebd286d92797c0d3a6602fa78c53c66413a001a0",
+      "source_seconds": 9.92,
+      "selected_seconds": [
+        0.0,
+        9.92
+      ],
+      "processing": "DC-free gain normalization with peak ceiling; circular cosine crossfade",
+      "duration": 9.27,
+      "channels": 1,
+      "rms_dbfs": -28.87,
+      "seam_delta": 0.003241,
+      "files": {
+        "ogg": {
+          "bytes": 58445,
+          "sha256": "01680e144249c64607ac6b4ff1b5c5ebe551732e653d967a6aea8493e7877fc3",
+          "duration": 9.27,
+          "peak_dbfs": -12.03
+        },
+        "mp3": {
+          "bytes": 58340,
+          "sha256": "8f70b072e324e3b41dfd5f3f51bdfb35274d3834b88cd01ba36f264252434fe9",
+          "duration": 9.27,
+          "peak_dbfs": -11.14
+        }
+      }
+    }
+  ]
+}

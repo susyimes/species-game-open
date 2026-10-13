@@ -1,0 +1,50 @@
+{
+  "sprig.glb": {
+    "meshes": 123,
+    "vertices": 10667
+  },
+  "mossback.glb": {
+    "meshes": 45,
+    "vertices": 3323
+  },
+  "reedbeak.glb": {
+    "meshes": 27,
+    "vertices": 1400
+  },
+  "emberfang.glb": {
+    "meshes": 42,
+    "vertices": 3116
+  },
+  "glowbug.glb": {
+    "meshes": 37,
+    "vertices": 2324
+  },
+  "tideback.glb": {
+    "meshes": 53,
+    "vertices": 3727
+  },
+  "reefjaw.glb": {
+    "meshes": 66,
+    "vertices": 3567
+  },
+  "berry.glb": {
+    "meshes": 20,
+    "vertices": 2270
+  },
+  "nest.glb": {
+    "meshes": 37,
+    "vertices": 5402
+  },
+  "tree.glb": {
+    "meshes": 15,
+    "vertices": 1608
+  },
+  "stone.glb": {
+    "meshes": 6,
+    "vertices": 72
+  },
+  "relic.glb": {
+    "meshes": 6,
+    "vertices": 221
+  }
+}

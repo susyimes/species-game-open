@@ -1,0 +1,24 @@
+{
+  "name": "species-game",
+  "version": "4.3.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "node scripts/dev.mjs",
+    "server": "node server/ecology/server.mjs",
+    "build": "vite build",
+    "preview": "vite preview --host 127.0.0.1 --port 4186 --strictPort",
+    "test": "node --test tests/*.test.js",
+    "test:browser": "node tests/browser.mjs",
+    "package:release": "node scripts/package-release.mjs"
+  },
+  "dependencies": {
+    "@noble/hashes": "2.4.0",
+    "three": "0.185.1"
+  },
+  "devDependencies": {
+    "@playwright/test": "1.58.2",
+    "vite": "8.2.2"
+  },
+  "license": "MIT"
+}

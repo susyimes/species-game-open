@@ -1,0 +1,23 @@
+const paths={
+  seed:'M5 19C0 9 9 2 20 3c1 11-4 18-12 16M6 20 17 7',
+  leaf:'M5 19C2 11 7 4 20 3c0 11-5 18-13 15M4 21 16 9',
+  stone:'m4 7 8-4 8 5 2 9-7 4-10-2L2 12Zm0 0 5 7 11-6M9 14l6 7',
+  dna:'M6 2c0 11 12 9 12 20M18 2C18 13 6 11 6 22M7 5h10M8 9h8M8 15h8M7 19h10',
+  paw:'M8 13c-5 5-3 9 1 7l3-1 3 1c4 2 6-2 1-7-3-4-5-4-8 0ZM4 8c-3-3 0-6 2-3s0 6-2 3Zm6-4c-2-4 2-5 3-1s-2 5-3 1Zm7 3c0-4 4-5 4-1s-4 5-4 1Z',
+  nest:'m3 13 3 7h12l3-7M2 12l20 2M4 17l16 1M7 13c-3-6 1-12 4-7 3-4 7 1 4 7',
+  compass:'m15 9-3 6-3-3 3-6ZM12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20Z',
+  shield:'m12 3 8 3v6c0 5-8 9-8 9s-8-4-8-9V6Zm-4 9 3 3 5-6',
+  horn:'M4 20C1 13 4 4 9 2c-3 8 3 8 3 14 0-6 6-6 3-14 5 2 8 11 5 18Z',
+  water:'M12 2s-7 8-7 13a7 7 0 0 0 14 0c0-5-7-13-7-13ZM2 21c3-3 6 2 10 0s7 2 10 0',
+  sun:'M12 8a4 4 0 1 0 0 8 4 4 0 0 0 0-8ZM12 1v3m0 16v3M1 12h3m16 0h3M4 4l2 2m12 12 2 2M4 20l2-2M18 6l2-2',
+  moon:'M20 15A9 9 0 0 1 9 4a9 9 0 1 0 11 11Z',
+  foot:'M8 3c4 1 5 7 3 11l-2 6H4l2-8c1-3-2-9 2-9Zm7 13 2-8 3 2-1 11h-5Z',
+  box:'m3 7 9-4 9 4v12l-9 3-9-3Zm0 0 9 4 9-4M12 11v11M7 5l9 4',
+  book:'M12 5C8 2 3 3 2 4v15c3-2 7-1 10 1 3-2 7-3 10-1V4c-3-2-7-1-10 1Zm0 0v15M5 8l4 1M5 12l4 1m7-4 4-1m-4 5 4-1',
+  arrow:'M5 12h14m-5-5 5 5-5 5', close:'m6 6 12 12M18 6 6 18', check:'m5 12 4 4L19 6', plus:'M12 5v14M5 12h14', minus:'M5 12h14',
+  home:'m3 10 9-7 9 7M5 9v12h14V9M9 21v-7h6v7', pause:'M8 5v14M16 5v14',play:'m7 4 13 8-13 8Z',
+  help:'M9 8a3 3 0 1 1 5 2c-2 1-2 2-2 4m0 3v.01M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20Z',
+  sound:'m3 10 5 0 5-5v14l-5-5H3Zm13-3c4 3 4 7 0 10m3-14c7 5 7 13 0 18',
+  flag:'M5 22V3c5-4 9 4 15 0v10c-6 4-10-4-15 0', bag:'M5 8h14l2 13H3Zm3 0V6a4 4 0 0 1 8 0v2M8 12v2m8-2v2', save:'M4 3h14l3 3v15H3V3Zm3 0v6h10V3M7 21v-8h10v8',
+};
+export function icon(name,cls=''){return `<svg class="icon ${cls}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="${paths[name]||paths.seed}"/></svg>`;}
