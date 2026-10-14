@@ -1,3 +1,4 @@
+import { t as msg, tr, getLocale, onLocaleChange } from "../i18n.js";
 import { mapBiomes } from '../core/maps.js';
 import { createJourneyScenery } from './journey-scenery.js';
 import * as THREE from 'three';
@@ -51,7 +52,7 @@ export async function createWorld(canvas,state,{onPick,onProgress,previewHost}){
     for(const a of [state.player,...state.agents]){
       if(actors.has(a.id))continue;
       const assetName=SPECIES[a.species]?.asset||'sprig';
-      if(!assets[assetName])throw new Error(`Missing species model: ${assetName}; loaded: ${Object.keys(assets).join(', ')}`);
+      if(!assets[assetName])throw new Error(`Missing species model: ${tr(assetName)}; loaded: ${tr(Object.keys(assets).join(', '))}`);
       const actor=createCreature(assets[assetName],a.kind,a.species);scene.add(actor.root);actors.set(a.id,actor);
       const hit=new THREE.Mesh(hitGeo,hitMat);hit.userData={type:a.kind==='player'?'player':a.kind==='companion'?'companion':'enemy',id:a.id};scene.add(hit);hitboxes.set(a.id,hit);pickables.push(hit);
     }
@@ -71,17 +72,17 @@ export async function createWorld(canvas,state,{onPick,onProgress,previewHost}){
   const routeLine=new THREE.Line(new THREE.BufferGeometry(),new THREE.LineDashedMaterial({color:'#f1e7aa',dashSize:.38,gapSize:.26,transparent:true,opacity:.6}));scene.add(routeLine);
   const labelLayer=document.getElementById('world-labels');
   const activity=document.getElementById('action-feedback'),activityLabel=document.getElementById('action-feedback-label'),activityValue=document.getElementById('action-feedback-value'),activityProgress=document.getElementById('action-feedback-progress'),activityBar=document.getElementById('action-feedback-bar');
-  const nestLabel=document.createElement('button');nestLabel.className='world-label home-label';nestLabel.innerHTML='<span class="label-dot"></span> 初生之巢 <small>家园</small>';labelLayer.append(nestLabel);
+  const nestLabel=document.createElement('button');nestLabel.className='world-label home-label';nestLabel.innerHTML=`<span class="label-dot"></span> ${msg("初生之巢 ")}<small>${msg("家园")}</small>`;labelLayer.append(nestLabel);
   nestLabel.addEventListener('click',()=>onPick({type:'home',entity:NEST}));
   const biomeLabels=BIOMES.filter(b=>b.id!=='meadow').map(b=>{
-    const el=document.createElement('div');el.className='world-label biome-label';el.innerHTML=`<span>◇</span> ${b.name}`;labelLayer.append(el);return {el,b};
+    const el=document.createElement('div');el.className='world-label biome-label';el.innerHTML=`<span>◇</span> ${tr(b.name)}`;labelLayer.append(el);return {el,b};
   });
   const vec=new THREE.Vector3();
   function positionLabel(el,x,y,z){
     vec.set(x,y,z).project(camera);
     const visible=vec.z<1&&Math.abs(vec.x)<.94&&Math.abs(vec.y)<.83;
     el.hidden=!visible;
-    if(visible)el.style.transform=`translate(-50%, -100%) translate(${(vec.x*.5+.5)*canvas.clientWidth}px,${(-vec.y*.5+.5)*canvas.clientHeight}px)`;
+    if(visible)el.style.transform=`translate(-50%, -100%) translate(${tr((vec.x*.5+.5)*canvas.clientWidth)}px,${tr((-vec.y*.5+.5)*canvas.clientHeight)}px)`;
   }
   let follow=true,manualUntil=0,lastRoute='',previewParts=null;
   controls.addEventListener('start',()=>{manualUntil=performance.now()+5000;});
@@ -177,16 +178,16 @@ export async function createWorld(canvas,state,{onPick,onProgress,previewHost}){
     const markerHeight=(x,z)=>Math.max(heightAt(x,z),waterHeightAt(x,z,state.time,state));
     selectedRing.position.set(selected.x,markerHeight(selected.x,selected.z)+.08,selected.z);
     selectedRing.rotation.y=state.time*.25;
-    const route=p.path||[],sig=route.map(n=>`${n.x},${n.z}`).join(';');
+    const route=p.path||[],sig=route.map(n=>`${tr(n.x)},${tr(n.z)}`).join(';');
     if(route.length){const end=route.at(-1);goalRing.position.set(end.x,markerHeight(end.x,end.z)+.06,end.z);goalRing.visible=true;}else goalRing.visible=false;
     if(sig!==lastRoute||route.length){
       lastRoute=sig;routeLine.geometry.dispose();
       routeLine.geometry=new THREE.BufferGeometry().setFromPoints(route.length?[p,...route].map(n=>new THREE.Vector3(n.x,markerHeight(n.x,n.z)+.10,n.z)):[]);routeLine.computeLineDistances();routeLine.visible=route.length>0;
     }
     const habitat=habitatStage(state);
-    if(nestLabel.dataset.level!==String(habitat.level)){nestLabel.dataset.level=String(habitat.level);nestLabel.innerHTML=`<span class="label-dot"></span> ${state.journey.active?'远征营地':state.journey.era?'后裔之巢':'初生之巢'} <small>${habitat.name}</small>`;}
+    if(nestLabel.dataset.level!==String(habitat.level)+getLocale()){nestLabel.dataset.level=String(habitat.level)+getLocale();nestLabel.innerHTML=`<span class="label-dot"></span> ${tr(state.journey.active?msg("远征营地"):state.journey.era?msg("后裔之巢"):msg("初生之巢"))} <small>${tr(habitat.name)}</small>`;}
     positionLabel(nestLabel,NEST.x,heightAt(NEST.x,NEST.z)+(habitat.level===3?3.9:3.1),NEST.z);
-    for(const {el,b} of biomeLabels)positionLabel(el,b.x,heightAt(b.x,b.z)+3.5,b.z);
+    for(const {el,b} of biomeLabels){if(el.dataset.locale!==getLocale()){el.innerHTML=`<span>◇</span> ${tr(b.name)}`;el.dataset.locale=getLocale();}positionLabel(el,b.x,heightAt(b.x,b.z)+3.5,b.z);}
     const feedback=actionFeedback(state);
     activity.hidden=!feedback||!!document.querySelector('dialog[open]');
     if(!activity.hidden){
@@ -195,16 +196,16 @@ export async function createWorld(canvas,state,{onPick,onProgress,previewHost}){
       if(vec.z>=1||Math.abs(vec.x)>.82||Math.abs(vec.y)>.72){anchor=p;vec.set(p.x,markerHeight(p.x,p.z)+2,p.z).project(camera);}
       const x=THREE.MathUtils.clamp((vec.x*.5+.5)*canvas.clientWidth,96,canvas.clientWidth-96);
       const y=THREE.MathUtils.clamp((-vec.y*.5+.5)*canvas.clientHeight,140,canvas.clientHeight-(document.body.classList.contains('has-guide')?240:170));
-      activity.style.transform=`translate(-50%, -100%) translate(${x}px,${y}px)`;activity.dataset.kind=feedback.kind;
-      const label=(state.paused?'暂停 · ':'')+feedback.label;
+      activity.style.transform=`translate(-50%, -100%) translate(${tr(x)}px,${tr(y)}px)`;activity.dataset.kind=feedback.kind;
+      const label=(state.paused?msg("暂停 · "):'')+tr(feedback.label);
       if(activityLabel.textContent!==label)activityLabel.textContent=label;
       activityProgress.hidden=feedback.value===null;
-      const value=feedback.value===null?'':feedback.kind==='hunt'?feedback.valueText.replace('生命 ',''):`${Math.floor(feedback.value)}%`;
+      const value=feedback.value===null?'':feedback.kind==='hunt'?feedback.valueText.replace("生命 ",''):`${tr(Math.floor(feedback.value))}%`;
       if(activityValue.textContent!==value)activityValue.textContent=value;
       if(feedback.value!==null){
-        activityBar.style.width=`${feedback.value}%`;activityProgress.setAttribute('aria-valuenow',String(Math.floor(feedback.value)));
-        activityProgress.setAttribute('aria-label',feedback.kind==='hunt'?'猎物生命':'本次行动进度');
-        activityProgress.setAttribute('aria-valuetext',feedback.kind==='hunt'?feedback.valueText:`${label} ${value}`);
+        activityBar.style.width=`${tr(feedback.value)}%`;activityProgress.setAttribute('aria-valuenow',String(Math.floor(feedback.value)));
+        activityProgress.setAttribute('aria-label',feedback.kind==='hunt'?msg("猎物生命"):msg("本次行动进度"));
+        activityProgress.setAttribute('aria-valuetext',feedback.kind==='hunt'?tr(feedback.valueText):`${tr(label)} ${tr(value)}`);
       }
     }
     renderer.render(scene,camera);
@@ -227,7 +228,7 @@ export async function createWorld(canvas,state,{onPick,onProgress,previewHost}){
     focusHome(){follow=false;controls.target.set(NEST.x,1.5,NEST.z);camera.position.set(NEST.x+20,29,NEST.z+27);controls.update();},
     focusPoint(p){follow=false;const y=heightAt(p.x,p.z);controls.target.set(p.x,y+.5,p.z);camera.position.set(p.x+10,y+18,p.z+16);controls.update();},
     focusPlayer(){follow=true;manualUntil=0;},
-    focusReward(id){const group=scene.getObjectByName(`Reward_${id}`);if(!group)return;const p=group.position;follow=false;controls.target.set(p.x,p.y+.5,p.z);camera.position.set(p.x+8,p.y+14,p.z+13);controls.update();},
+    focusReward(id){const group=scene.getObjectByName(`Reward_${tr(id)}`);if(!group)return;const p=group.position;follow=false;controls.target.set(p.x,p.y+.5,p.z);camera.position.set(p.x+8,p.y+14,p.z+13);controls.update();},
     zoom(mult){const off=camera.position.clone().sub(controls.target);off.multiplyScalar(mult).clampLength(13,70);camera.position.copy(controls.target).add(off);},
     showPreview(host,parts=null){host.append(previewRenderer.domElement);previewParts=parts;},
     previewParts(parts){previewParts=parts;},

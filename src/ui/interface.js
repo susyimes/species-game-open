@@ -1,3 +1,4 @@
+import { t as msg, tr, getLocale, onLocaleChange, setLocale, refreshLocalizedLabels } from "../i18n.js";
 import { CONTRACTS } from '../core/journey-config.js';
 import { departureChoice } from '../core/journey.js';
 import { remaining } from './journey.js';
@@ -21,11 +22,12 @@ import { isJuvenile } from '../core/survival-config.js';
 import { visibleSystems } from './progression.js';
 import { RIVAL_SITES } from '../core/rivals.js';
 
-const bar=(id,value)=>{const el=document.getElementById(id);if(el)el.style.width=`${clamp(value,0,100)}%`;};
+const bar=(id,value)=>{const el=document.getElementById(id);if(el)el.style.width=`${tr(clamp(value,0,100))}%`;};
 export function mountUI(state,callbacks){
   const BIOMES=mapBiomes(state);
   const { biomeAt, heightAt }=terrainFor(state);
   document.getElementById('interface').innerHTML=interfaceHTML;
+  const language=document.createElement('label');language.className='language-control';language.innerHTML='<span class="visually-hidden">Language / 语言</span><select id="game-language" data-language-select aria-label="Language / 语言"><option value="en">English</option><option value="zh-CN">简体中文</option></select>';document.querySelector('.topbar').append(language);const languageSelect=language.querySelector('select');languageSelect.value=getLocale();document.getElementById('interface').addEventListener('change',e=>{if(e.target.matches('[data-language-select]'))setLocale(e.target.value);});
   const hud=createHud(state,document.getElementById('interface'));
   let world=null,lastToast='',lastParts='';
   const dialogs=createDialogs(state,callbacks,()=>world);
@@ -42,7 +44,7 @@ export function mountUI(state,callbacks){
     set('creature-menu-title',info.name);set('creature-menu-description',info.description);
     document.getElementById('creature-menu-facts').innerHTML=info.facts.map(f=>'<span>'+safe(f)+'</span>').join('');
     document.getElementById('creature-menu-options').innerHTML=info.options.map(o=>'<button data-target-action="'+o.id+'" '+(o.disabled?'disabled':'')+'><span>'+icon(o.id==='hunt'?'horn':o.id==='harvest'?'leaf':o.id==='communicate'?'sound':o.id==='follow'?'paw':'nest')+'</span><div><strong>'+safe(o.name)+'</strong><small>'+safe(o.description)+'</small></div>'+icon('arrow')+'</button>').join('');
-    set('creature-menu-hint',info.hint);callbacks.modal(true);creatureMenu.showModal();coach.update();
+    set('creature-menu-hint',info.hint);callbacks.modal(true);if(!creatureMenu.open)creatureMenu.showModal();coach.update();
   }
   creatureMenu.addEventListener('cancel',e=>{e.preventDefault();closeCreatureMenu();});
   function run(fn,...args){const result=callbacks[fn]?.(...args);if(result&&!result.ok)callbacks.message(result.reason);update(true);return result;}
@@ -105,7 +107,7 @@ export function mountUI(state,callbacks){
       case 'creature-menu-close':closeCreatureMenu();break;
       case 'export-save':callbacks.exportSave();break;
       case 'import-save-button':document.getElementById('import-save').click();break;
-      case 'reset-button':btn.id='confirm-reset';btn.textContent='确认开启新旅程';set('save-feedback','当前旅程会先保存一份本机备份，再开启新旅程。');break;
+      case 'reset-button':btn.id='confirm-reset';btn.textContent=msg("确认开启新旅程");set('save-feedback',msg("当前旅程会先保存一份本机备份，再开启新旅程。"));break;
       case 'confirm-reset':callbacks.reset();break;
     }
   });
@@ -140,13 +142,13 @@ export function mountUI(state,callbacks){
     hud.update();
     const outlook=foodOutlook(state),supply=document.getElementById('survival-strip');
     const ecoDanger=['endangered','critical','recovering'].includes(state.habitatHealth?.level);
-    supply.hidden=!ecoDanger;supply.textContent=state.habitatHealth?.critical?'岛上的生命正在减少 · 查看保护办法':'留意野生种群 · 查看岛屿生态';
+    supply.hidden=!ecoDanger;supply.textContent=state.habitatHealth?.critical?msg("岛上的生命正在减少 · 查看保护办法"):msg("留意野生种群 · 查看岛屿生态");
     supply.setAttribute('aria-label',supply.textContent);document.body.classList.toggle('on-expedition',!!state.journey?.active);
     const systems=visibleSystems(state);
     document.querySelector('.resource-icon.gene').closest('.resource').hidden=!systems.evolve;
     document.querySelector('.resource-icon.material').closest('.resource').hidden=!systems.colony;
     document.querySelector('.resource.population').hidden=!systems.colony;
-    for(const name of ['evolve','colony','journal','journey']){const button=document.querySelector(`.action-bar [data-panel="${name}"]`);if(button)button.hidden=!systems[name];}
+    for(const name of ['evolve','colony','journal','journey']){const button=document.querySelector(`.action-bar [data-panel="${tr(name)}"]`);if(button)button.hidden=!systems[name];}
     document.getElementById('chapter-button').hidden=!systems.chapter;
     document.getElementById('weather-toggle').hidden=!systems.weather;
     document.querySelector('.time-controls [data-speed="2"]').hidden=!systems.colony;
@@ -155,50 +157,57 @@ export function mountUI(state,callbacks){
     supply.dataset.level=state.habitatHealth?.critical?'critical':state.survival?.level||'fed';
     const run=state.journey.active;
     const status=document.getElementById('expedition-status');status.hidden=!run;
-    if(run)status.textContent=`潮生岛 · 样本 ${run.samples.length}/3 · ${remaining(run.deadline-state.time)} ›`;
-    set('map-name',run?'潮生岛远征':state.journey.era?'裂潮家园':'初生之岛');
+    if(run)status.textContent=msg("潮生岛 · 样本 {p0}/3 · {p1} ›",{p0:tr(run.samples.length),p1:tr(remaining(run.deadline-state.time))});
+    set('map-name',run?msg("潮生岛远征"):state.journey.era?msg("裂潮家园"):msg("初生之岛"));
     document.getElementById('expedition-button').classList.toggle('guide-highlight',!coach.current&&!state.hints?.journeyIntro&&departureChoice(state,'glowflower').ok);
 
-    set('food-value',n(state.colony.food));set('material-value',n(state.colony.material));set('dna-value',n(state.colony.dna));set('population-value',`${population(state)} / ${state.colony.capacity}`);
+    set('food-value',n(state.colony.food));set('material-value',n(state.colony.material));set('dna-value',n(state.colony.dna));set('population-value',`${tr(population(state))} / ${tr(state.colony.capacity)}`);
     const env=environment(state);
     const d=dayInfo(state),biome=biomeAt(state.player.x,state.player.z);
-    set('day-value',`${state.journey.era?'后裔 · ':''}第 ${d.day} 天`);set('hour-value',`${String(Math.floor(d.hour)).padStart(2,'0')}:${String(Math.floor(d.hour%1*60)).padStart(2,'0')}`);set('biome-name',biome.name);
+    set('day-value',msg("{p0}第 {p1} 天",{p0:tr(state.journey.era?msg("后裔 · "):''),p1:tr(d.day)}));set('hour-value',`${tr(String(Math.floor(d.hour)).padStart(2,'0'))}:${tr(String(Math.floor(d.hour%1*60)).padStart(2,'0'))}`);set('biome-name',biome.name);
     const weather=state.weather==='rain'?'water':d.hour>18||d.hour<6?'moon':'sun',wi=document.getElementById('weather-icon');
     if(wi.dataset.weather!==weather){wi.innerHTML=icon(weather);wi.dataset.weather=weather;}
     const q=QUESTS[state.quest];
-    set('quest-title',q?.title||'家园的下一步');set('quest-description',q?.description||'基础旅程已完成。查看初岛安居目标，准备迎接海上的来客。');
-    set('quest-index',`${String(Math.min(6,state.quest+1)).padStart(2,'0')} / 06`);set('quest-label',q?.label||'基础旅程已完成');
-    const chapter=chapterProgress(state);set('chapter-summary',chapter.won?'已达成':`${chapter.goals.filter(g=>g.value>=g.target).length} / ${chapter.goals.length}`);
-    set('weather-toggle',`${WEATHER[state.weather].name} · ${tideValue(state,state.time+1)>tideValue(state)?'涨潮':'退潮'} ›`);
-    set('quest-count',q?`${Math.min(q.target,Math.floor(state.metrics[q.metric]||0))} / ${q.target}`:'6 / 6');bar('quest-bar',q?(state.metrics[q.metric]||0)/q.target*100:100);set('quest-reward',q?`+${q.reward} 进化点`:'自由探索');
-    set('chapter-label',run?'远征目标':state.journey.era?'风潮立足':'初岛安居');
-    if(run){const c=CONTRACTS.find(c=>c.id===run.contractId);set('quest-title',c.name);set('quest-description','收集三个样本，回营地返航。避开猎食者，受伤时先回营地。');set('quest-index','远征');set('quest-label',c.sample);set('quest-count',`${run.samples.length} / 3`);set('quest-reward',state.journey.rewards.includes(c.id)?'+8 进化点':c.reward);bar('quest-bar',run.samples.length/3*100);set('chapter-summary',`${run.samples.length} / 3`);}
-    else if(state.journey.era){set('quest-title','让家园与远方相连');set('quest-description','完成三次远征、带回三种景观，照料族群在风潮之间生活。');set('quest-index','后裔时代');}
+    set('quest-title',q?.title||msg("家园的下一步"));set('quest-description',q?.description||msg("基础旅程已完成。查看初岛安居目标，准备迎接海上的来客。"));
+    set('quest-index',`${tr(String(Math.min(6,state.quest+1)).padStart(2,'0'))} / 06`);set('quest-label',q?.label||msg("基础旅程已完成"));
+    const chapter=chapterProgress(state);set('chapter-summary',chapter.won?msg("已达成"):`${tr(chapter.goals.filter(g=>g.value>=g.target).length)} / ${tr(chapter.goals.length)}`);
+    set('weather-toggle',`${tr(WEATHER[state.weather].name)} · ${tr(tideValue(state,state.time+1)>tideValue(state)?msg("涨潮"):msg("退潮"))} ›`);
+    set('quest-count',q?`${tr(Math.min(q.target,Math.floor(state.metrics[q.metric]||0)))} / ${tr(q.target)}`:'6 / 6');bar('quest-bar',q?(state.metrics[q.metric]||0)/q.target*100:100);set('quest-reward',q?msg("+{p0} 进化点",{p0:tr(q.reward)}):msg("自由探索"));
+    set('chapter-label',run?msg("远征目标"):state.journey.era?msg("风潮立足"):msg("初岛安居"));
+    if(run){const c=CONTRACTS.find(c=>c.id===run.contractId);set('quest-title',c.name);set('quest-description',msg("收集三个样本，回营地返航。避开猎食者，受伤时先回营地。"));set('quest-index',msg("远征"));set('quest-label',c.sample);set('quest-count',`${tr(run.samples.length)} / 3`);set('quest-reward',state.journey.rewards.includes(c.id)?msg("+8 进化点"):c.reward);bar('quest-bar',run.samples.length/3*100);set('chapter-summary',`${tr(run.samples.length)} / 3`);}
+    else if(state.journey.era){set('quest-title',msg("让家园与远方相连"));set('quest-description',msg("完成三次远征、带回三种景观，照料族群在风潮之间生活。"));set('quest-index',msg("后裔时代"));}
     set('habitat-stage-label',habitatStage(state).name);
-    set('colony-status',state.colony.food<8?'需要更多食物':state.colony.egg?'新生命正在孵育':'生活安稳');
+    set('colony-status',state.colony.food<8?msg("需要更多食物"):state.colony.egg?msg("新生命正在孵育"):msg("生活安稳"));
     for(const id of Object.keys(JOBS))set('job-'+id,state.agents.filter(a=>a.kind==='companion'&&!isJuvenile(state,a)&&a.job===id).length);
     const project=state.buildings.find(b=>b.progress<1);document.getElementById('construction').hidden=!project;
-    if(project){set('construction-name',`营造${BUILDINGS.find(b=>b.id===project.kind).name}`);set('construction-percent',`${Math.floor(project.progress*100)}%`);bar('construction-bar',project.progress*100);}
-    set('building-count',`${state.buildings.filter(b=>b.progress===1&&b.kind!=='home').length} 座设施`);
-    set('generation',`第 ${state.generation} 代`);set('species-subtitle',state.parts.length?`${state.parts.length} 次适应 · ${state.parts.includes('fins')?'水陆两栖':'陆生杂食'}`:'原生种 · 陆生杂食');
+    if(project){set('construction-name',msg("营造{p0}",{p0:tr(BUILDINGS.find(b=>b.id===project.kind).name)}));set('construction-percent',`${tr(Math.floor(project.progress*100))}%`);bar('construction-bar',project.progress*100);}
+    set('building-count',msg("{p0} 座设施",{p0:tr(state.buildings.filter(b=>b.progress===1&&b.kind!=='home').length)}));
+    set('generation',msg("第 {p0} 代",{p0:tr(state.generation)}));set('species-subtitle',state.parts.length?msg("{p0} 次适应 · {p1}",{p0:tr(state.parts.length),p1:tr(state.parts.includes('fins')?msg("水陆两栖"):msg("陆生杂食"))}):msg("原生种 · 陆生杂食"));
     const stats=speciesStats(state.parts,state.style);bar('health-bar',state.player.hp);bar('stamina-bar',state.player.stamina/stats.stamina*100);set('health-value',Math.ceil(state.player.hp));set('stamina-value',Math.floor(state.player.stamina));
     set('compact-health',Math.ceil(state.player.hp));set('compact-stamina',Math.floor(state.player.stamina));document.getElementById('compact-vitals').classList.toggle('danger',state.player.hp<45);
-    if(lastParts!==state.parts.join(',')||force){lastParts=state.parts.join(',');document.getElementById('creature-traits').innerHTML=state.parts.length?state.parts.map(id=>`<span>${EVOLUTIONS.find(e=>e.id===id).name}</span>`).join(''):'<span>好奇的探索者</span><span>群居</span>';}
-    set('bag-value',`背包 ${n(bagTotal(state.player))} / ${stats.carry}`);set('bag-detail',bagTotal(state.player)?`${n(state.player.carry.food)} 食物 · ${n(state.player.carry.material)} 材料`:'');
+    if(lastParts!==state.parts.join(',')||force){lastParts=state.parts.join(',');document.getElementById('creature-traits').innerHTML=state.parts.length?state.parts.map(id=>`<span>${tr(EVOLUTIONS.find(e=>e.id===id).name)}</span>`).join(''):`<span>${msg("好奇的探索者")}</span><span>${msg("群居")}</span>`;}
+    set('bag-value',msg("背包 {p0} / {p1}",{p0:tr(n(bagTotal(state.player))),p1:tr(stats.carry)}));set('bag-detail',bagTotal(state.player)?msg("{p0} 食物 · {p1} 材料",{p0:tr(n(state.player.carry.food)),p1:tr(n(state.player.carry.material))}):'');
     const mode=world?.actors.get('player')?.root.userData.movementMode;
     document.getElementById('bag-value').dataset.medium=mode||'land';
-    if(mode==='swim'||mode==='wade')set('bag-value',`${mode==='swim'?'游泳':'趟水'} · 背包 ${n(bagTotal(state.player))} / ${stats.carry}`);
+    if(mode==='swim'||mode==='wade')set('bag-value',msg("{p0} · 背包 {p1} / {p2}",{p0:tr(mode==='swim'?msg("游泳"):msg("趟水")),p1:tr(n(bagTotal(state.player))),p2:tr(stats.carry)}));
     const context=nearbyContext(state);
-    set('interaction-label',context?.type==='enemy'?'捕食附近猎物':context?.label||(state.player.path.length?'正在前往目的地':'单击采集 / 捕食 · 长按详情'));
+    set('interaction-label',context?.type==='enemy'?msg("捕食附近猎物"):context?.label||(state.player.path.length?msg("正在前往目的地"):msg("单击采集 / 捕食 · 长按详情")));
     document.getElementById('interact-button').disabled=!context;
     coach.update();
-    const recent=state.notifications.filter(e=>state.time-e.time<9&&!['resource','quest'].includes(e.kind)).slice(-2),toastSig=recent.map(e=>e.text+e.time).join('|');
-    if(toastSig!==lastToast){lastToast=toastSig;document.getElementById('toasts').innerHTML=recent.map(e=>`<div class="toast ${e.kind}">${icon(e.kind==='evolve'?'dna':e.kind==='danger'?'shield':'check')}<span>${safe(e.text)}</span></div>`).join('');}
-    set('play-state',state.paused?'时间已暂停':'世界正在生长');
-    const pause=document.getElementById('pause-button');if(pause.dataset.paused!==String(state.paused)){pause.innerHTML=icon(state.paused?'play':'pause');pause.setAttribute('aria-label',state.paused?'继续':'暂停');pause.dataset.paused=String(state.paused);}
+    const recent=state.notifications.filter(e=>state.time-e.time<9&&!['resource','quest'].includes(e.kind)).slice(-2),toastSig=getLocale()+recent.map(e=>e.text+e.time).join('|');
+    if(toastSig!==lastToast){lastToast=toastSig;document.getElementById('toasts').innerHTML=recent.map(e=>`<div class="toast ${tr(e.kind)}">${tr(icon(e.kind==='evolve'?'dna':e.kind==='danger'?'shield':'check'))}<span>${tr(safe(e.text))}</span></div>`).join('');}
+    set('play-state',state.paused?msg("时间已暂停"):msg("世界正在生长"));
+    const pause=document.getElementById('pause-button');if(pause.dataset.paused!==String(state.paused)+getLocale()){pause.innerHTML=icon(state.paused?'play':'pause');pause.setAttribute('aria-label',state.paused?msg("继续"):msg("暂停"));pause.dataset.paused=String(state.paused)+getLocale();}
     document.querySelectorAll('[data-speed]').forEach(el=>el.classList.toggle('active',Number(el.dataset.speed)===state.speed));
-    set('map-discovered',`探索 ${state.discovered.length} / 4`);drawMap();dialogs.update();
+    set('map-discovered',msg("探索 {p0} / 4",{p0:tr(state.discovered.length)}));drawMap();dialogs.update();
   }
+  onLocaleChange(()=>{
+    const focusedLanguage=document.activeElement?.matches('[data-language-select]'),focusedInDialog=!!document.activeElement?.closest('dialog');
+    languageSelect.value=getLocale();refreshLocalizedLabels(document.getElementById('interface'));
+    for(const el of document.querySelectorAll('[data-job-label]'))el.textContent=tr(JOBS[el.dataset.jobLabel]);
+    for(const el of document.querySelectorAll('[data-job]'))el.setAttribute('aria-label',msg(el.dataset.delta==='-1'?'减少{p0}同伴':'增加{p0}同伴',{p0:tr(JOBS[el.dataset.job])}));
+    dialogs.relocalize();if(menuTarget)openTargetMenu(menuTarget);update(true);if(focusedLanguage)(focusedInDialog?document.querySelector('dialog[open] [data-language-select]'):languageSelect)?.focus();
+  });
   update(true);
   return {update,revealHUD:hud.reveal,toggleHUD:hud.toggle,open(which){openPanel(which);},openTargetMenu,acknowledgeGuide:coach.ack,close(){if(creatureMenu.open)closeCreatureMenu();else dialogs.close();},get panel(){return creatureMenu.open?'creature':dialogs.panel;},get previewHost(){return document.getElementById('portrait');},attachWorld(w){world=w;}};
 }

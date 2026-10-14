@@ -1,3 +1,4 @@
+import { t as msg, tr, getLocale, onLocaleChange } from "../i18n.js";
 import { nextGuide, nextObjective, acknowledgeGuide } from '../core/onboarding.js';
 
 export function createOnboarding(state,root,save){
@@ -10,7 +11,7 @@ export function createOnboarding(state,root,save){
     const visible=!!current&&!state.paused&&state.player.target?.type!=='enemy';
     panel.hidden=!visible;document.body.classList.toggle('has-guide',visible);
     root.querySelector('#guide-dismiss').hidden=!!current?.objective;
-    if(current){text.textContent=current.text;label.textContent=current.label+' ›';panel.dataset.guide=current.id;}
+    if(current){text.textContent=tr(current.text);label.textContent=tr(current.label)+' ›';panel.dataset.guide=current.id;}
     else delete panel.dataset.guide;
     for(const [target,button] of Object.entries(buttons)){
       const active=!!current&&current.target===target;button.classList.toggle('guide-highlight',active);

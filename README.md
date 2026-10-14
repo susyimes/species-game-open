@@ -75,3 +75,9 @@ JavaScript、Three.js、Vite；Node.js / SQLite 提供可选生态服务。
 本项目自有代码采用 [MIT 许可证](LICENSE)。素材范围与来源见 [ASSETS.md](ASSETS.md)；第三方依赖及素材保留原有条款，不因代码 MIT 而被重新授权。
 
 本仓库从已清理的当前文件建立独立 Git 历史；原私库与原工作区保留。
+
+## Languages
+
+The current First Island game supports English and Simplified Chinese. It selects the first supported language in your browser preferences (English is the fallback). Use the **English / 简体中文** selector in the welcome screen, top bar, or Help to switch instantly. The choice is stored separately from journey saves under `zhongxi-isle-language-v1`; blocked storage still permits switching for the current session. Language changes preserve your journey and simulation.
+
+The archived `legacy/` version remains an original-version compatibility path and is not part of the current game's bilingual interface.
